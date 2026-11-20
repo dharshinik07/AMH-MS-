@@ -242,7 +242,7 @@ INSERT INTO users (
     must_change_password,
     active
 ) VALUES (
-    'u0000000-0000-0000-0000-000000000001',
+    'a0000000-0000-0000-0000-000000000001',
     'Aishowner',
     'aishowner',
     'sundararajan@aishwaryahostels.com',
