@@ -1,0 +1,445 @@
+@import "tailwindcss";
+
+@theme {
+  --breakpoint-xs: 360px;
+  --breakpoint-sm: 480px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+}
+
+:root {
+  /* Safe Area Insets */
+  --sat: env(safe-area-inset-top, 0px);
+  --sar: env(safe-area-inset-right, 0px);
+  --sab: env(safe-area-inset-bottom, 0px);
+  --sal: env(safe-area-inset-left, 0px);
+
+  /* NAVY: website hero background */
+  --navy-950: #0A1B30;   /* deepest: sidebar bottom, modal backdrop base */
+  --navy-900: #0F243F;   /* THE website blue: sidebar, hero banner, dark cards, primary text */
+  --navy-800: #152A45;   /* raised navy surfaces (hover, inner cards on navy) */
+  --navy-700: #293C55;   /* navy borders, pills on navy, dividers */
+  --navy-300: #B8C4D4;   /* muted text on navy */
+  --navy-200: #C9D3E0;   /* body text on navy */
+
+  /* GOLD: website buttons, logo tile and gold heading */
+  --gold-500: #D6AB47;   /* solid gold (left end of the button gradient) */
+  --gold-400: #E2BF6C;   /* light gold (right end of the button gradient) */
+  --gold-600: #B8902F;   /* pressed / borders on gold */
+  --gold-700: #8A6A1B;   /* gold used AS TEXT on white (passes contrast) */
+  --gold-100: #F8EDD0;   /* soft gold tint */
+  --gold-50:  #FDF8EA;   /* cream surfaces */
+  --gold-gradient: linear-gradient(135deg, #D6AB47 0%, #E2BF6C 100%);
+  --gold-gradient-soft: linear-gradient(135deg, rgba(214, 171, 71, 0.18) 0%, rgba(226, 191, 108, 0.10) 100%);
+  --navy-gradient: linear-gradient(180deg, #0F243F 0%, #0A1B30 100%);
+
+  /* Rose: only for overdue/attention */
+  --rose-50:  #FFF1F5;
+  --rose-500: #D6336C;
+  --rose-700: #A61E4D;
+
+  /* Neutrals */
+  --bg:        #F6F8FB;
+  --surface:   #FFFFFF;
+  --surface-2: #EEF2F7;
+  --border:    #E3E8EF;
+  --ink:       #0F243F;
+  --ink-2:     #44546A;
+  --ink-3:     #6B7A90;
+
+  /* Legacy & convenience mappings */
+  --gold:       var(--gold-500);
+  --gold-light: var(--gold-400);
+  --gold-deep:  var(--gold-700);
+  --gold-tint:  var(--gold-50);
+  --gold-border:var(--gold-100);
+}
+
+/* Explicit Gradient Utilities (always background-image, never background-color) */
+.bg-gold-gradient {
+  background-image: linear-gradient(135deg, #D6AB47 0%, #E2BF6C 100%) !important;
+}
+
+.bg-gold-gradient-soft {
+  background-image: linear-gradient(135deg, rgba(214, 171, 71, 0.18) 0%, rgba(226, 191, 108, 0.10) 100%) !important;
+}
+
+.bg-navy-gradient {
+  background-image: linear-gradient(180deg, #0F243F 0%, #0A1B30 100%) !important;
+}
+
+html {
+  overflow-x: clip;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--navy-900);
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  margin: 0;
+  padding: 0;
+  font-size: 15px;
+  line-height: 1.5;
+  min-height: 100vh;
+  min-height: 100dvh;
+  position: relative;
+  overflow-x: clip;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Touch Action Optimization & iOS Auto-Zoom Prevention */
+button,
+a,
+[role="button"],
+input,
+select,
+textarea {
+  touch-action: manipulation;
+}
+
+/* Prevent iOS Safari from auto-zooming when focusing inputs */
+@media (max-width: 767px) {
+  input,
+  select,
+  textarea,
+  .input-ledger {
+    font-size: 16px !important;
+  }
+}
+
+/* Safe Area Inset Utility Classes */
+.pt-safe {
+  padding-top: max(env(safe-area-inset-top, 0px), 12px);
+}
+.pb-safe {
+  padding-bottom: max(env(safe-area-inset-bottom, 0px), 12px);
+}
+.pl-safe {
+  padding-left: max(env(safe-area-inset-left, 0px), 12px);
+}
+.pr-safe {
+  padding-right: max(env(safe-area-inset-right, 0px), 12px);
+}
+.bottom-safe {
+  bottom: env(safe-area-inset-bottom, 0px);
+}
+.top-safe {
+  top: env(safe-area-inset-top, 0px);
+}
+
+/* Contain overscroll on drawers, sheets and modals */
+.overscroll-contain {
+  overscroll-behavior: contain;
+}
+
+/* Minimum Tap Target Area (44x44px) */
+.touch-target {
+  min-width: 44px;
+  min-height: 44px;
+}
+
+/* Ambient Background Glows */
+.ambient-glow-top {
+  position: fixed;
+  top: -150px;
+  right: -100px;
+  width: 650px;
+  height: 650px;
+  background: radial-gradient(circle, rgba(214, 171, 71, 0.14) 0%, rgba(214, 171, 71, 0) 70%);
+  border-radius: 9999px;
+  pointer-events: none;
+  z-index: 0;
+  animation: floatAmbient 28s ease-in-out infinite alternate;
+}
+
+.ambient-glow-bottom {
+  position: fixed;
+  bottom: -150px;
+  left: 200px;
+  width: 550px;
+  height: 550px;
+  background: radial-gradient(circle, rgba(15, 36, 63, 0.05) 0%, rgba(15, 36, 63, 0) 70%);
+  border-radius: 9999px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes floatAmbient {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-30px, 20px) scale(1.05); }
+  100% { transform: translate(20px, -20px) scale(0.98); }
+}
+
+/* Serif Headings: Playfair Display 700 */
+.font-serif-heading {
+  font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+/* Tabular Numerals for Rupee Amounts */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: #C9D3E0;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #B8C4D4;
+}
+
+/* Card: Soft borders, radius 20px, layered soft shadow */
+.card-ledger {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  box-shadow: 0 1px 2px rgba(15, 36, 63, 0.04), 0 12px 32px rgba(15, 36, 63, 0.05);
+  transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.2s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.2s ease;
+}
+
+.card-ledger:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(15, 36, 63, 0.06), 0 18px 40px rgba(214, 171, 71, 0.08);
+  border-color: var(--gold-100);
+}
+
+/* Section divider with fading ends */
+.divider-gold-fade {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(214, 171, 71, 0.35) 20%, rgba(214, 171, 71, 0.35) 80%, transparent);
+  border: none;
+  width: 100%;
+}
+
+/* Primary Button (Gold gradient + Navy-900 text + Light Sweep) */
+.btn-primary {
+  background-image: linear-gradient(135deg, #D6AB47 0%, #E2BF6C 100%);
+  color: #0F243F;
+  height: 44px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 0 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(214, 171, 71, 0.32);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.15s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.15s ease, filter 0.15s ease;
+}
+.btn-primary::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -60%;
+  width: 40%;
+  height: 200%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  transform: rotate(25deg);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.btn-primary:hover::after {
+  opacity: 1;
+  animation: shine-sweep 0.75s ease-in-out forwards;
+}
+.btn-primary:hover {
+  filter: brightness(1.04);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px rgba(214, 171, 71, 0.42);
+}
+.btn-primary:active {
+  transform: scale(0.97);
+}
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+@keyframes shine-sweep {
+  0% { transform: translateX(0) rotate(25deg); }
+  100% { transform: translateX(450%) rotate(25deg); }
+}
+
+/* Secondary Button (Surface-2, 1px border, Navy text) */
+.btn-secondary {
+  background-color: var(--surface-2);
+  color: var(--navy-900);
+  height: 44px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 0 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
+}
+.btn-secondary:hover {
+  background-color: var(--gold-50);
+  border-color: var(--gold-100);
+  color: var(--navy-900);
+  box-shadow: 0 2px 8px rgba(214, 171, 71, 0.1);
+}
+.btn-secondary:active {
+  transform: scale(0.97);
+}
+.btn-secondary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Danger / Vacate Button */
+.btn-danger {
+  background-color: var(--rose-50);
+  color: var(--rose-700);
+  height: 44px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 0 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
+}
+.btn-danger:hover {
+  background-color: var(--rose-500);
+  color: #FFFFFF;
+  box-shadow: 0 4px 14px rgba(214, 51, 108, 0.3);
+}
+.btn-danger:active {
+  transform: scale(0.97);
+}
+
+/* Ghost Button */
+.btn-ghost {
+  background-color: transparent;
+  color: var(--ink-2);
+  height: 44px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 0 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  cursor: pointer;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+.btn-ghost:hover {
+  background-color: var(--surface-2);
+  color: var(--navy-900);
+}
+
+/* Inputs: 44px high, radius 12px, --surface-2 bg, focus = white + 2px #D6AB47 ring + 4px rgba(214,171,71,.2) halo */
+.input-ledger {
+  height: 44px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background-color: var(--surface-2);
+  color: var(--navy-900);
+  font-size: 14px;
+  padding: 0 14px;
+  width: 100%;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+.input-ledger:focus {
+  background-color: #FFFFFF;
+  border-color: #D6AB47;
+  box-shadow: 0 0 0 2px #D6AB47, 0 0 0 6px rgba(214, 171, 71, 0.2);
+}
+
+/* Global focus ring utility matching Section 4: 2px #D6AB47 with 4px rgba(214,171,71,.2) halo */
+.focus-ring-gold:focus,
+.focus-ring-gold:focus-within {
+  outline: none;
+  border-color: #D6AB47;
+  box-shadow: 0 0 0 2px #D6AB47, 0 0 0 6px rgba(214, 171, 71, 0.2);
+}
+
+/* Notice Box / Info Box */
+.notice-gold {
+  background-color: var(--gold-50);
+  border: 1px solid var(--gold-100);
+  color: var(--gold-700);
+  border-radius: 14px;
+  padding: 14px 16px;
+}
+
+/* Striped Gold Pattern for Pending Collection Bar */
+.bg-striped-gold {
+  background-color: var(--gold-100);
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 6px,
+    rgba(214, 171, 71, 0.35) 6px,
+    rgba(214, 171, 71, 0.35) 12px
+  );
+}
+
+/* Pulse soft animations */
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.15); }
+}
+.animate-pulse-soft {
+  animation: pulse-soft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes shimmer-gold {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Subtle motion reduction */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .ambient-glow-top, .ambient-glow-bottom {
+    animation: none !important;
+  }
+}
+
+/* Prevent development overlay badge ("N") from obscuring the mobile navigation tabs */
+nextjs-portal {
+  display: none !important;
+}

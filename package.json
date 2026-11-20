@@ -1,0 +1,42 @@
+{
+  "name": "lucid-darwin",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "test": "npm run test:unit && npm run verify:data && npm run test:e2e",
+    "test:unit": "node tests/auth-api.test.mjs && node tests/auth-crypto.test.mjs && node tests/auth-seed.test.mjs && node tests/hostel.test.mjs",
+    "test:e2e": "playwright test",
+    "test:prod": "npm run lint && tsc --noEmit && npm run build && npm test",
+    "verify:data": "node scripts/verify-data.mjs",
+    "seed:owner": "node --experimental-strip-types scripts/seed-owner.mjs",
+    "reset-owner-password": "node --experimental-strip-types scripts/reset-owner-password.mjs"
+  },
+  "dependencies": {
+    "canvas-confetti": "^1.9.4",
+    "clsx": "^2.1.1",
+    "framer-motion": "^14.14.0",
+    "jspdf": "^4.2.1",
+    "lucide-react": "^1.76.0",
+    "next": "16.4.6",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "tailwind-merge": "^3.7.0",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.65.1",
+    "@tailwindcss/turbopack": "4.3.3",
+    "@types/canvas-confetti": "^1.9.0",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.4.6",
+    "tailwindcss": "4.3.3",
+    "typescript": "^5"
+  }
+}

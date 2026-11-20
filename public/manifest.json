@@ -1,0 +1,47 @@
+{
+  "name": "Aishwaraya Hostels Console",
+  "short_name": "AMH Console",
+  "description": "Private operations console for Aishwaraya Hostels & PG",
+  "start_url": "/dashboard",
+  "display": "standalone",
+  "background_color": "#0F243F",
+  "theme_color": "#0F243F",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Add Resident",
+      "short_name": "Add Resident",
+      "description": "Admit a new resident in under 30 seconds",
+      "url": "/residents?action=new",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Collect Rent",
+      "short_name": "Collect Rent",
+      "description": "Record a rent payment",
+      "url": "/rent",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Vacancy Board",
+      "short_name": "Vacancy Board",
+      "description": "Live vacant beds across 8 branches",
+      "url": "/vacancy",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}
