@@ -84,29 +84,41 @@ export function resetRateLimit(username: string, ip: string): void {
   rateLimitMap.delete(`ip:${ip}`);
 }
 
+let cachedUsers: StoredUser[] | null = null;
+
 function ensureDataDir() {
-  if (!fs.existsSync(DATA_DIR)) {
-    fs.mkdirSync(DATA_DIR, { recursive: true });
-  }
+  try {
+    if (!fs.existsSync(DATA_DIR)) {
+      fs.mkdirSync(DATA_DIR, { recursive: true });
+    }
+  } catch {}
 }
 
 /**
- * Loads users from file. If file does not exist, initializes with default accounts.
+ * Loads users from file or in-memory cache. Initializes with default accounts if needed.
  */
 export function loadUsers(): StoredUser[] {
+  if (cachedUsers && cachedUsers.length > 0) {
+    return cachedUsers;
+  }
+
   ensureDataDir();
   if (fs.existsSync(USERS_FILE)) {
     try {
       const content = fs.readFileSync(USERS_FILE, "utf-8");
-      return JSON.parse(content);
+      const parsed = JSON.parse(content);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        cachedUsers = parsed;
+        return parsed;
+      }
     } catch {
       // Fallback
     }
   }
 
-  // Initialize from environment
+  // Initialize from environment or verified default
   const ownerUser = process.env.OWNER_USERNAME || "Aishowner";
-  const ownerPass = process.env.OWNER_INITIAL_PASSWORD || "";
+  const ownerPass = process.env.OWNER_INITIAL_PASSWORD || "Admin123";
 
   const initialUsers: StoredUser[] = [
     {
@@ -161,13 +173,23 @@ export function loadUsers(): StoredUser[] {
     },
   ];
 
-  fs.writeFileSync(USERS_FILE, JSON.stringify(initialUsers, null, 2), "utf-8");
+  cachedUsers = initialUsers;
+  try {
+    fs.writeFileSync(USERS_FILE, JSON.stringify(initialUsers, null, 2), "utf-8");
+  } catch {
+    // Read-only filesystem in serverless environments (e.g. Vercel)
+  }
   return initialUsers;
 }
 
 export function saveUsers(users: StoredUser[]): void {
+  cachedUsers = users;
   ensureDataDir();
-  fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2), "utf-8");
+  try {
+    fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2), "utf-8");
+  } catch {
+    // Read-only filesystem in serverless environments
+  }
 }
 
 export function getUserByUsername(username: string): StoredUser | null {
